@@ -2,6 +2,12 @@ name: Build executable
 
 on:
   workflow_dispatch:
+    inputs:
+      ref:
+        description: "Branch or tag to build"
+        required: true
+        default: "master"
+        type: string
   pull_request:
   push:
     branches: [master]
@@ -14,6 +20,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref || github.ref }}
 
       - uses: pnpm/action-setup@v5
         with:
